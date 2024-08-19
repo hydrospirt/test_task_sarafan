@@ -1,5 +1,5 @@
-from typing import Generator
 from datetime import datetime as dt
+from typing import Generator
 
 from art import art, text2art
 
