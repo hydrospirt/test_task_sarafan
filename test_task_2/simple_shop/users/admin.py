@@ -1,12 +1,15 @@
 from django.contrib import admin
-from .models import CustomUser
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
+
+CustomUser = get_user_model()
 
 
-@admin.register(CustomUser)
-class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ("id",
-                    "email"
-                    "phone_number",
-                    "role",
-                    "is_active",
-                    "is_staff")
+class CustomUserAdmin(UserAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('phone_number',)}),
+    )
+
+
+admin.site.register(CustomUser, CustomUserAdmin)
