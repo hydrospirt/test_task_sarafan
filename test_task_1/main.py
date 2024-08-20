@@ -34,4 +34,5 @@ if __name__ == "__main__":
             print(f"> {n} - это не положительное целое число. "
                   + "Попробуйте снова.")
             print(art("sad1", number=3, space=5))
-print("".join(sequence_generator(n)))
+print("> Ответ:", "".join(sequence_generator(n)))
+print("> Программа завершает выполнение. ")
