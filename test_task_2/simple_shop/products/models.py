@@ -5,7 +5,9 @@ import os
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    models.SlugField(max_length=15, unique=True)
+    slug = models.SlugField(max_length=15, unique=True)
+    image = models.ImageField(upload_to="categories/",
+                              null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -15,6 +17,8 @@ class SubCategory(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=15, unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="categories/sub_categories/",
+                              null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -30,13 +34,13 @@ class Product(models.Model):
     subcategory = models.ForeignKey(SubCategory,
                                     on_delete=models.SET_NULL,
                                     null=True, blank=True)
-    image = models.ImageField(upload_to='products/',
+    image = models.ImageField(upload_to="products/",
                               null=True, blank=True)
-    image_small = models.ImageField(upload_to='products/',
+    image_small = models.ImageField(upload_to="products/",
                                     null=True, blank=True)
-    image_medium = models.ImageField(upload_to='products/',
+    image_medium = models.ImageField(upload_to="products/",
                                      null=True, blank=True)
-    image_large = models.ImageField(upload_to='products/',
+    image_large = models.ImageField(upload_to="products/",
                                     null=True, blank=True)
 
     def save(self, *args, **kwargs):
