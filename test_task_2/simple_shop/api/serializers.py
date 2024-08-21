@@ -29,8 +29,10 @@ class ProductSerializer(serializers.ModelSerializer):
                   "subcategory", "price", "images")
 
     def get_images(self, obj):
-        return {
-            "small": obj.image_small.url if obj.image_small else None,
-            "medium": obj.image_medium.url if obj.image_medium else None,
-            "large": obj.image_large.url if obj.image_large else None,
+        request = self.context.get("request")
+        images = {
+            "small": request.build_absolute_uri(obj.image_small.url) if obj.image_small else None,
+            "medium": request.build_absolute_uri(obj.image_medium.url) if obj.image_medium else None,
+            "large": request.build_absolute_uri(obj.image_large.url) if obj.image_large else None,
         }
+        return images
