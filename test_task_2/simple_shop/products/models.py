@@ -22,6 +22,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+        ordering = ("-id", )
 
     def __str__(self):
         return self.name
@@ -35,13 +36,15 @@ class Category(models.Model):
 class SubCategory(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=15, unique=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name="subcategories",
+                                 on_delete=models.CASCADE)
     image = models.ImageField(upload_to=generic_image_path,
                               null=True, blank=True)
 
     class Meta:
         verbose_name = "Подкатегория"
         verbose_name_plural = "Подкатегории"
+        ordering = ("-id", )
 
     def __str__(self):
         return self.name
@@ -74,7 +77,15 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True)
     quantity = models.PositiveIntegerField(default=1)
 
-    def save(self, *args, update_image_path=False, **kwargs):
+    class Meta:
+        verbose_name = "Продукт"
+        verbose_name_plural = "Продукты"
+        ordering = ("-id", )
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if not self.slug:
             self.slug = slugify(self.name)
@@ -108,10 +119,3 @@ class Product(models.Model):
 
             setattr(self, f"image_{size_name}", thumb_nail_path)
         super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = "Продукт"
-        verbose_name_plural = "Продукты"
-
-    def __str__(self):
-        return self.name
