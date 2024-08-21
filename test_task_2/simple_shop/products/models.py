@@ -1,27 +1,57 @@
 from django.db import models
+from django.utils.timezone import now
+from django.utils.text import slugify
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from PIL import Image
 import os
+
+
+def generic_image_path(instance, filename):
+    model_name = instance._meta.model_name
+    date_time = now().strftime("%Y-%m-%d")
+    extension = filename.split('.')[-1]
+    new_filename = f"{instance.slug}.{extension}"
+    return os.path.join(model_name, date_time, new_filename)
 
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=15, unique=True)
-    image = models.ImageField(upload_to="categories/",
+    image = models.ImageField(upload_to=generic_image_path,
                               null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
 
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=15, unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="categories/sub_categories/",
+    image = models.ImageField(upload_to=generic_image_path,
                               null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Подкатегория"
+        verbose_name_plural = "Подкатегории"
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(SubCategory, self).save(*args, **kwargs)
 
 
 class Product(models.Model):
@@ -35,19 +65,22 @@ class Product(models.Model):
     subcategory = models.ForeignKey(SubCategory,
                                     on_delete=models.SET_NULL,
                                     null=True, blank=True)
-    image = models.ImageField(upload_to="products/",
+    image = models.ImageField(upload_to=generic_image_path,
                               null=True, blank=True)
-    image_small = models.ImageField(upload_to="products/",
+    image_small = models.ImageField(upload_to=generic_image_path,
                                     null=True, blank=True)
-    image_medium = models.ImageField(upload_to="products/",
+    image_medium = models.ImageField(upload_to=generic_image_path,
                                      null=True, blank=True)
-    image_large = models.ImageField(upload_to="products/",
+    image_large = models.ImageField(upload_to=generic_image_path,
                                     null=True, blank=True)
     is_available = models.BooleanField(default=True)
     quantity = models.PositiveIntegerField(default=1)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, update_image_path=False, **kwargs):
         super().save(*args, **kwargs)
+        if not self.slug:
+            self.slug = slugify(self.name)
+
         if self.quantity == 0:
             self.is_available = False
         else:
@@ -77,6 +110,10 @@ class Product(models.Model):
 
             setattr(self, f"image_{size_name}", thumb_nail_path)
         super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Продукт"
+        verbose_name_plural = "Продукты"
 
     def __str__(self):
         return self.name
