@@ -43,9 +43,15 @@ class Product(models.Model):
                                      null=True, blank=True)
     image_large = models.ImageField(upload_to="products/",
                                     null=True, blank=True)
+    is_available = models.BooleanField(default=True)
+    quantity = models.PositiveIntegerField(default=1)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+        if self.quantity == 0:
+            self.is_available = False
+        else:
+            self.is_available = True
 
         if self.image:
             self.create_thumbnails()
