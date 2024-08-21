@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
 from django.utils.text import slugify
-from django.dispatch import receiver
-from django.db.models.signals import post_save
 from PIL import Image
 import os
 
