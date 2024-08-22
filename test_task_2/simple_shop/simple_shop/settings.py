@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "products.apps.ProductsConfig",
     "users.apps.UsersConfig",
     "phonenumber_field",
+    "rest_framework",
+    "rest_framework_simplejwt",
     "drf_yasg",
 ]
 
@@ -135,3 +137,12 @@ AUTH_USER_MODEL = "users.CustomUser"
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_NAME = "cart_session"
 CART_SESSION_ID = "cart"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+}
