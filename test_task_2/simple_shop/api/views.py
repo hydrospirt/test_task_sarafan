@@ -30,6 +30,8 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CartAPIView(APIView):
+    permission_classes = (IsAuthenticated, )
+
     @swagger_auto_schema(
         operation_description="Получить текущую корзину",
         responses={200: CartSerializer()}
