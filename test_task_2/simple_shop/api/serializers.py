@@ -29,13 +29,20 @@ class ProductSerializer(serializers.ModelSerializer):
                   "subcategory", "price", "images")
 
     def get_images(self, obj):
-        request = self.context.get("request")
         images = {
-            "small": (request.build_absolute_uri(obj.image_small.url)
-                      if obj.image_small else None),
-            "medium": (request.build_absolute_uri(obj.image_medium.url)
-                       if obj.image_medium else None),
-            "large": (request.build_absolute_uri(obj.image_large.url)
-                      if obj.image_large else None),
+            "original": obj.image.url if obj.image else None,
+            "small": obj.image_small.url if obj.image_small else None,
+            "medium": obj.image_medium.url if obj.image_medium else None,
+            "large": obj.image_large.url if obj.image_large else None,
         }
         return images
+
+
+class CartItemSerializer(serializers.Serializer):
+    product_id = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all())
+    quantity = serializers.IntegerField(min_value=1)
+
+
+class CartSerializer(serializers.Serializer):
+    items = CartItemSerializer(many=True)
