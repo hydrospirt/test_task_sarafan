@@ -7,10 +7,10 @@ import os
 
 def generic_image_path(instance, filename):
     model_name = instance._meta.model_name
-    date_time = now().strftime("%Y-%m-%d")
+    date = now().strftime("%Y-%m-%d")
     extension = filename.split('.')[-1]
     new_filename = f"{instance.slug}.{extension}"
-    return os.path.join(model_name, date_time, new_filename)
+    return os.path.join(model_name, date, new_filename)
 
 
 class Category(models.Model):
@@ -116,6 +116,5 @@ class Product(models.Model):
                 + f"{size_name}.{self.image.name.split(".")[-1]}"
             )
             img_copy.save(thumb_nail_path)
-
             setattr(self, f"image_{size_name}", thumb_nail_path)
         super().save(*args, **kwargs)
