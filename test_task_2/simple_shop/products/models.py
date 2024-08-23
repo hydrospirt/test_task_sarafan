@@ -66,14 +66,12 @@ class Product(models.Model):
     subcategory = models.ForeignKey(SubCategory,
                                     on_delete=models.SET_NULL,
                                     null=True, blank=True)
-    image = models.ImageField(upload_to=generic_image_path,
-                              null=True, blank=True)
+    image_original = models.ImageField(upload_to=generic_image_path,
+                                       null=True, blank=True)
     image_small = models.ImageField(upload_to=generic_image_path,
                                     null=True, blank=True)
     image_medium = models.ImageField(upload_to=generic_image_path,
                                      null=True, blank=True)
-    image_large = models.ImageField(upload_to=generic_image_path,
-                                    null=True, blank=True)
     is_available = models.BooleanField(default=True)
     quantity = models.PositiveIntegerField(default=1)
 
@@ -95,25 +93,24 @@ class Product(models.Model):
         else:
             self.is_available = True
 
-        if self.image:
+        if self.image_original:
             self.create_thumbnails()
 
     def create_thumbnails(self, *args, **kwargs):
-        img = Image.open(self.image.path)
+        img = Image.open(self.image_original.path)
 
         sizes = {
             "small": (100, 100),
             "medium": (300, 300),
-            "large": (600, 600),
         }
 
         for size_name, size in sizes.items():
             img_copy = img.copy()
             img_copy.thumbnail(size)
             thumb_nail_path = os.path.join(
-                os.path.dirname(self.image.path),
-                f"{os.path.basename(self.image.name).split(".")[0]}_"
-                + f"{size_name}.{self.image.name.split(".")[-1]}"
+                os.path.dirname(self.image_original.path),
+                f"{os.path.basename(self.image_original.name).split(".")[0]}_"
+                + f"{size_name}.{self.image_original.name.split(".")[-1]}"
             )
             img_copy.save(thumb_nail_path)
             setattr(self, f"image_{size_name}", thumb_nail_path)
