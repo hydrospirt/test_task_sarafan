@@ -6,10 +6,28 @@ CustomUser = get_user_model()
 
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
-    fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('phone_number',)}),
+    list_display = ("id", "email", "username",
+                    "phone_number", "is_staff", "is_active",)
+    fieldsets = (
+        (None, {"fields": ("email", "password")}),
+        ("Personal info", {"fields": ("first_name",
+                                      "last_name",
+                                      "phone_number")}),
+        ("Permissions", {"fields": (
+            "is_active", "is_staff",
+            "is_superuser", "groups",
+            "user_permissions")}),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
+    add_fieldsets = (
+        (None, {
+            "classes": ("wide",),
+            "fields": ("email", "username",
+                       "phone_number", "password1", "password2"),
+        }),
+    )
+    search_fields = ("email", "username", "phone_number")
+    ordering = ("email",)
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
