@@ -20,4 +20,4 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "price", "subcategory")
     search_fields = ("name", )
     list_filter = ("id", "price")
-    exclude = ("image_small", "image_medium", "image_large")
+    exclude = ("image_small", "image_medium")
