@@ -1,5 +1,9 @@
+from django.conf import settings
 from rest_framework import serializers
-from products.models import Category, SubCategory, Product
+from rest_framework.request import Request
+
+from api.utils import extract_media_path
+from products.models import Category, Product, SubCategory
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
@@ -29,11 +33,20 @@ class ProductSerializer(serializers.ModelSerializer):
                   "subcategory", "price", "images")
 
     def get_images(self, obj):
+        request = self.context.get('request')
+        if not isinstance(request, Request):
+            return {}
+        base_url = request.build_absolute_uri(settings.MEDIA_URL)
         images = {
-            "original": obj.image.url if obj.image else None,
-            "small": obj.image_small.url if obj.image_small else None,
-            "medium": obj.image_medium.url if obj.image_medium else None,
-            "large": obj.image_large.url if obj.image_large else None,
+            "original": (base_url
+                         + extract_media_path(obj.image_original.url)
+                         if obj.image_original else None),
+            "small": (base_url
+                      + extract_media_path(obj.image_small.url)
+                      if obj.image_small else None),
+            "medium": (base_url
+                       + extract_media_path(obj.image_medium.url)
+                       if obj.image_medium else None),
         }
         return images
 
