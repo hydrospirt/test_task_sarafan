@@ -136,6 +136,7 @@ AUTH_USER_MODEL = "users.CustomUser"
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_NAME = "cart_session"
+SESSION_SAVE_EVERY_REQUEST = True
 CART_SESSION_ID = "cart"
 
 REST_FRAMEWORK = {
@@ -154,5 +155,31 @@ SWAGGER_SETTINGS = {
             "name": "Authorization",
             "in": "header"
         }
+    },
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+        'api': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
     },
 }
