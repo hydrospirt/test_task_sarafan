@@ -13,7 +13,7 @@
 
 <h2>Оглавление</h2>
     <ul>
-        <li><a href="#task1">1. Тестовое задание Sequence Generator </a></li>
+        <li><a href="#task">1. Тестовое задание Sequence Generator</a></li>
         <li><a href="#task2">2. Тестовое задание Simple API Shop</a></li>
     </ul>
 
@@ -74,7 +74,7 @@
 
 ```
 
-<h1 id="#task1"> 1. Тестовое задание Sequence Generator </h1>
+<h1 id="#task">1. Тестовое задание Sequence Generator</h1>
 
 <p>
   <img src="https://github.com/hydrospirt/test_task_sarafan/blob/master/assets/test1.png" alt="Sequence Generator" width=50%>
