@@ -136,6 +136,11 @@
    ```bash
    python manage.py runserver
    ```
+7. **Перейдите по ссылкам:**
+   ```bash
+   http://127.0.0.1:8000/admin/ # Административная панель
+   http://127.0.0.1:8000/swagger/ # Автодокументация Swagger
+   ```
 
 ## API Endpoints
 
