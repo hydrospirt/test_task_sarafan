@@ -4,9 +4,14 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class CustomUser(AbstractUser):
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
+    first_name = models.CharField(max_length=30,
+                                  verbose_name="Имя",
+                                  blank=True)
+    last_name = models.CharField(max_length=30,
+                                 verbose_name="Фамилия",
+                                 blank=True)
     phone_number = PhoneNumberField(
+        verbose_name="Номер телефона",
         unique=True,
         null=False,
         blank=False)
@@ -17,7 +22,7 @@ class CustomUser(AbstractUser):
 
     groups = models.ManyToManyField(
         Group,
-        verbose_name="groups",
+        verbose_name="группы",
         blank=True,
         help_text="Группы, к которым принадлежит этот пользователь.",
         related_name="customuser_set",
@@ -25,7 +30,7 @@ class CustomUser(AbstractUser):
     )
     user_permissions = models.ManyToManyField(
         Permission,
-        verbose_name="user permissions",
+        verbose_name="права пользователя",
         blank=True,
         help_text="Определенные разрешения для этого пользователя.",
         related_name="customuser_set",
