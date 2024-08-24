@@ -136,7 +136,6 @@ AUTH_USER_MODEL = "users.CustomUser"
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_NAME = "cart_session"
-SESSION_SAVE_EVERY_REQUEST = True
 CART_SESSION_ID = "cart"
 
 REST_FRAMEWORK = {
