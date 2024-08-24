@@ -1,14 +1,29 @@
 # Тестовое задание для стажировки Сарафан
 
+Это мой проект, и вот информация об авторе:
+
+<div style="display: flex; align-items: center;">
+  <img src="https://avatars.githubusercontent.com/u/43341579?s=400&u=23abef0a296e52a8bf1dc29fd6c8c50b4f3feda4&v=4" alt="Ваше Имя" width="100" style="border-radius: 50%; margin-right: 20px;">
+  <div>
+    <h3>Эдуард Гумен</h3>
+    <p>Ссылка на мой профиль GitHub:</p>
+    <p><a href="https://github.com/hydrospirt">GitHub Profile</a></p>
+  </div>
+</div>
+
 <h2>Оглавление</h2>
     <ul>
         <li><a href="#task1">1. Тестовое задание Sequence Generator </a></li>
         <li><a href="#task2">2. Тестовое задание Simple API Shop</a></li>
     </ul>
 
-<h1 id="#task1"> 1. Тестовое задание Sequence Generator </h1> 
+<h1 id="#task1"> 1. Тестовое задание Sequence Generator </h1>
 
-ссылка на задание.
+<p>
+  <img src="https://github.com/hydrospirt/test_task_sarafan/blob/master/assets/test1.png" alt="Sequence Generator" width=50%>
+</p>
+
+- [Cсылка на тестовое задание 1](https://github.com/hydrospirt/test_task_sarafan/blob/master/test_task_1/EXP.md)
 
 Это простой прототип на Python, который генерирует последовательность чисел на основе введенного пользователем целого положительного числа. Последовательность генерируется путем многократного добавления текущего числа i к последовательности i раз, пока длина последовательности не достигнет введенного пользователем значения.
 
@@ -54,7 +69,14 @@
 
 <h1 id="task2">2. Тестовое задание Simple API Shop</h1>
 
-ссылка на задание.
+<p>
+  <img src="https://github.com/hydrospirt/test_task_sarafan/blob/master/assets/test_task2_swagger.png" alt="Admin Panel" width=50%>
+</p>
+<p>
+  <img src="https://github.com/hydrospirt/test_task_sarafan/blob/master/assets/test2_admin_panel.png" alt="Admin Panel" width=50%>
+</p>
+
+- [Ссылка на тестовое задание 2](https://github.com/hydrospirt/test_task_sarafan/blob/master/test_task_2/EXP.md)
 
 Это RESTful API для простого интернет-магазина, созданный с использованием Django и платформы Django Rest Framework. API позволяет клиентам просматривать и приобретать товары, просматривать свою корзину и управлять ею.
 
