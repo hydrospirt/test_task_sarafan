@@ -1,5 +1,6 @@
-import os
 import fnmatch
+import os
+from pathlib import Path
 
 EXCLUDE_DIRS = ["__pycache__", "venv", ".git",
                 ".idea", "*.egg-info", "migrations"]
@@ -36,5 +37,6 @@ def print_directory_structure(root_dir, indent=""):
             print(f"{indent}├──{item}")
 
 
-root_directory = "D:/Dev/test_task_sarafan"
+BASE_DIR = Path(__file__).resolve().parent
+root_directory = BASE_DIR
 print_directory_structure(root_directory)
