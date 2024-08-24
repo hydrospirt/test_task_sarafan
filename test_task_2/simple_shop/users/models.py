@@ -1,6 +1,5 @@
-from django.contrib.auth.models import AbstractUser, Permission, Group
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
-
 from phonenumber_field.modelfields import PhoneNumberField
 
 
