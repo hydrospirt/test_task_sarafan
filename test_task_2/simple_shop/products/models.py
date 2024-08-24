@@ -14,9 +14,13 @@ def generic_image_path(instance, filename):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=15, unique=True)
+    name = models.CharField(max_length=100,
+                            verbose_name="Название")
+    slug = models.SlugField(max_length=15,
+                            verbose_name="URL-slug",
+                            unique=True)
     image = models.ImageField(upload_to=generic_image_path,
+                              verbose_name="Изображение",
                               null=True, blank=True)
 
     class Meta:
@@ -34,11 +38,16 @@ class Category(models.Model):
 
 
 class SubCategory(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=15, unique=True)
+    name = models.CharField(max_length=100,
+                            verbose_name="Название")
+    slug = models.SlugField(max_length=15,
+                            verbose_name="URL-slug",
+                            unique=True)
     category = models.ForeignKey(Category, related_name="subcategories",
+                                 verbose_name="Категория",
                                  on_delete=models.CASCADE)
     image = models.ImageField(upload_to=generic_image_path,
+                              verbose_name="Изображение",
                               null=True, blank=True)
 
     class Meta:
@@ -56,24 +65,36 @@ class SubCategory(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    description = models.TextField()
-    slug = models.SlugField(max_length=15, unique=True)
+    name = models.CharField(max_length=100,
+                            verbose_name="Название",)
+    price = models.DecimalField(max_digits=10,
+                                verbose_name="Цена",
+                                decimal_places=2)
+    description = models.TextField(verbose_name="Описание",)
+    slug = models.SlugField(max_length=15,
+                            verbose_name="URL-slug",
+                            unique=True)
     category = models.ForeignKey(Category,
                                  on_delete=models.SET_NULL,
+                                 verbose_name="Категория",
                                  null=True, blank=True)
     subcategory = models.ForeignKey(SubCategory,
                                     on_delete=models.SET_NULL,
+                                    verbose_name="Подкатегория",
                                     null=True, blank=True)
     image_original = models.ImageField(upload_to=generic_image_path,
+                                       verbose_name="Изображение",
                                        null=True, blank=True)
     image_small = models.ImageField(upload_to=generic_image_path,
+                                    verbose_name="Значек",
                                     null=True, blank=True)
     image_medium = models.ImageField(upload_to=generic_image_path,
+                                     verbose_name="Превью",
                                      null=True, blank=True)
-    is_available = models.BooleanField(default=True)
-    quantity = models.PositiveIntegerField(default=1)
+    is_available = models.BooleanField(default=True,
+                                       verbose_name="В наличии",)
+    quantity = models.PositiveIntegerField(default=1,
+                                           verbose_name="Количество",)
 
     class Meta:
         verbose_name = "Продукт"
