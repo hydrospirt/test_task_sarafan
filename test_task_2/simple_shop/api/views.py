@@ -1,3 +1,5 @@
+import logging
+
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -10,6 +12,8 @@ from .pagination import StandardResultsSetPagination
 from .serializers import (CartItemSerializer, CartSerializer,
                           CategorySerializer, ProductSerializer)
 from .service import Cart
+
+logger = logging.getLogger(__name__)
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -38,7 +42,7 @@ class CartAPIView(APIView):
     )
     def get(self, request):
         cart = Cart(request)
-
+        logger.debug(f"Session key: {request.session.session_key}")
         return Response(
             {"data": list(cart.__iter__()),
              "cart_total_price": cart.get_total_price()},
@@ -50,10 +54,13 @@ class CartAPIView(APIView):
         responses={201: CartItemSerializer()}
     )
     def post(self, request):
+        cart = Cart(request)
         serializer = CartItemSerializer(data=request.data)
         if serializer.is_valid():
             product = serializer.validated_data["product_id"]
             quantity = serializer.validated_data["quantity"]
+            logger.debug(f"Adding product {product.id} to cart",
+                         f"for session {request.session.session_key}")
             cart = Cart(request)
             cart.add(product, quantity)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -67,8 +74,10 @@ class CartAPIView(APIView):
     def put(self, request):
         serializer = CartItemSerializer(data=request.data)
         if serializer.is_valid():
-            product = serializer.validated_data['product_id']
-            quantity = serializer.validated_data['quantity']
+            product = serializer.validated_data["product_id"]
+            quantity = serializer.validated_data["quantity"]
+            logger.debug(f"Updating product {product.id} in cart",
+                         f" for session {request.session.session_key}")
             cart = Cart(request)
             cart.add(product, quantity, override_quantity=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -83,6 +92,8 @@ class CartAPIView(APIView):
         serializer = CartItemSerializer(data=request.data)
         if serializer.is_valid():
             product = serializer.validated_data["product_id"]
+            logger.debug(f"Removing product {product.id} from cart ",
+                         f"for session {request.session.session_key}")
             cart = Cart(request)
             cart.remove(product)
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -95,6 +106,8 @@ class ClearCartAPIView(APIView):
         responses={204: "No Content"}
     )
     def delete(self, request):
+        logger.debug("Clearing cart for ",
+                     f"session {request.session.session_key}")
         cart = Cart(request)
         cart.clear()
         return Response(status=status.HTTP_204_NO_CONTENT)
