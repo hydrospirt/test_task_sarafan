@@ -17,12 +17,26 @@ logger = logging.getLogger(__name__)
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Предоставляет операцию чтения для модели Category.
+
+    Операции:
+    - просмотр списка категорий продуктов с подкатегориями;
+    - просмотр конкретной категории по id.
+    """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     pagination_class = StandardResultsSetPagination
 
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Предоставляет операцию чтения для модели Product.
+
+    Операции:
+    - просмотр списка продуктов;
+    - просмотр конкретного продукта по id.
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = StandardResultsSetPagination
@@ -34,6 +48,9 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CartAPIView(APIView):
+    """
+    Предоставляет операции для работы с корзиной.
+    """
     permission_classes = (IsAuthenticated, )
 
     @swagger_auto_schema(
