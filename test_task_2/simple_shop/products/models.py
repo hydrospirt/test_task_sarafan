@@ -1,8 +1,9 @@
-from django.db import models
-from django.utils.timezone import now
-from django.utils.text import slugify
-from PIL import Image
 import os
+
+from django.db import models
+from django.utils.text import slugify
+from django.utils.timezone import now
+from PIL import Image
 
 
 def generic_image_path(instance, filename):
