@@ -165,7 +165,7 @@
 Для операций с корзиной требуется авторизация по токену. Получите токен через эндпоинт `/api/token/` и используйте его в заголовках запросов:
 
 ```http
-Authorization: Bearer Token your_token_here
+Authorization: Bearer your_token_here
 ```
 
 ## Лицензия
