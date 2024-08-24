@@ -11,10 +11,11 @@
   </div>
 </div>
 
-<h2>Оглавление</h2>
+<h2 id="start">Оглавление</h2>
     <ul>
         <li><a href="#task1">1. Тестовое задание Sequence Generator</a></li>
         <li><a href="#task2">2. Тестовое задание Simple API Shop</a></li>
+        <li><a href="#license">3. Лицензия</a></li>
     </ul>
 
 ## Структура
@@ -225,8 +226,9 @@
 Authorization: Bearer your_token_here
 ```
 
-## Лицензия
+<h2 id="license">Лицензия</h2>
 
 Этот проект распространяется под лицензией MIT. Подробности смотрите в файле [LICENSE](LICENSE).
 
+<a href="#start">^^ Наверх к оглавлению</a>
 
